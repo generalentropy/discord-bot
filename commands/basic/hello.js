@@ -12,16 +12,6 @@ module.exports = {
     .setName("hello")
     .setDescription("Répond avec hello!"),
   async execute(interaction) {
-    const res = await responseHello(interaction);
-    await interaction.reply(res);
+    await interaction.reply("Hello!");
   },
 };
-
-// module.exports = {
-//   data: new SlashCommandBuilder()
-//     .setName("hello")
-//     .setDescription("Répond avec hello!"),
-//   async execute(interaction) {
-//     await interaction.reply("Hello!");
-//   },
-// };

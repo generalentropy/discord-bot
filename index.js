@@ -1,5 +1,11 @@
 require("dotenv").config();
-const { Client, Collection, Events, IntentsBitField } = require("discord.js");
+const {
+  Client,
+  Collection,
+  Events,
+  IntentsBitField,
+  PermissionsBitField,
+} = require("discord.js");
 const path = require("node:path");
 const fs = require("node:fs");
 const { BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env;
@@ -28,12 +34,18 @@ client.on("ready", (c) => {
 });
 
 client.on("messageCreate", (msg) => {
-  if (msg.content.toLocaleLowerCase() === "hello" && !msg.author.bot) {
+  if (msg.content.toLowerCase() === "hello" && !msg.author.bot) {
     msg.reply("Hello!");
   }
 });
 
-// message.channel.send("Hello!");
+client.on("messageCreate", (msg) => {
+  if (msg.content.toLowerCase() === "baguette") {
+    const user = msg.author.username;
+
+    msg.reply("🥖");
+  }
+});
 
 const hello = new Set(["hello", "bonjour", "salut", "hi"]);
 client.on("messageCreate", (msg) => {
@@ -67,7 +79,6 @@ for (const folder of commandsFolders) {
     const command = require(filePath);
 
     // On vérifie si data & execute dans le fichier
-
     if ("data" in command && "execute" in command) {
       client.commands.set(command.data.name, command);
     } else {
@@ -86,7 +97,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  // Si on est pas sur une commande / on ne fait rien
+  // Si on est pas sur une commande "/" on ne fait rien
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === "hello") {
